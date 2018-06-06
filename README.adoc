@@ -9,6 +9,8 @@ The current backend is provided by link:http://www.saxonica.com/products/PD9.8/H
 
 == Build
 
+image::https://jitpack.io/v/eberhardtj/metafacture-xdm.svg[link="https://jitpack.io/#eberhardtj/metafacture-xdm"]
+
 ```
 gradlew clean test fatJar
 ```
