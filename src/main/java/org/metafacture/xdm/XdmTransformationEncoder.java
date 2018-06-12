@@ -19,11 +19,11 @@ import net.sf.saxon.s9api.*;
 import org.metafacture.framework.FluxCommand;
 import org.metafacture.framework.MetafactureException;
 import org.metafacture.framework.ObjectReceiver;
+import org.metafacture.framework.XdmReceiver;
 import org.metafacture.framework.annotations.Description;
 import org.metafacture.framework.annotations.In;
 import org.metafacture.framework.annotations.Out;
-import org.metafacture.framework.DefaultXdmPipe;
-import org.metafacture.framework.XdmReceiver;
+import org.metafacture.framework.helpers.DefaultXdmPipe;
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayOutputStream;
@@ -35,13 +35,11 @@ import java.nio.charset.StandardCharsets;
 @Out(String.class)
 @Description("Encodes xdm nodes into the output of a xsl transformation.")
 @FluxCommand("encode-transformation")
-public class XdmTransformationEncoder implements DefaultXdmPipe<ObjectReceiver<String>> {
+public class XdmTransformationEncoder extends DefaultXdmPipe<ObjectReceiver<String>> {
     private final Processor processor;
     private XsltTransformer transformer;
 
     private ByteArrayOutputStream buffer;
-
-    private ObjectReceiver<String> receiver;
 
     public XdmTransformationEncoder(String stylesheet) {
         this.processor = new Processor(false);
@@ -79,29 +77,23 @@ public class XdmTransformationEncoder implements DefaultXdmPipe<ObjectReceiver<S
             processor.writeXdmValue(nodeCopy, transformer);
             String serializedNode = new String(buffer.toByteArray(), StandardCharsets.UTF_8);
 
-            receiver.process(serializedNode);
+            getReceiver().process(serializedNode);
         } catch (SaxonApiException e) {
             throw new MetafactureException(e);
         }
     }
 
     @Override
-    public void resetStream() {
+    public void onResetStream() {
         buffer.reset();
     }
 
     @Override
-    public void closeStream() {
+    public void onCloseStream() {
         try {
             buffer.close();
         } catch (IOException e) {
             throw new MetafactureException(e);
         }
-    }
-
-    @Override
-    public <R extends ObjectReceiver<String>> R setReceiver(R receiver) {
-        this.receiver = receiver;
-        return receiver;
     }
 }

@@ -13,33 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.metafacture.xdm;
+package org.metafacture.framework.helpers;
 
 import net.sf.saxon.s9api.XdmNode;
-import org.metafacture.framework.DefaultXdmPipe;
 import org.metafacture.framework.XdmReceiver;
 
-public class ForwardingXdmPipe implements DefaultXdmPipe<XdmReceiver> {
-    private XdmReceiver receiver;
+public class ForwardingXdmPipe extends DefaultXdmPipe<XdmReceiver> {
 
     @Override
     public void process(XdmNode node) {
-        receiver.process(node);
-    }
-
-    @Override
-    public <R extends XdmReceiver> R setReceiver(R receiver) {
-        this.receiver = receiver;
-        return receiver;
-    }
-
-    @Override
-    public void resetStream() {
-        // Do nothing
-    }
-
-    @Override
-    public void closeStream() {
-        // Do nothing
+        getReceiver().process(node);
     }
 }

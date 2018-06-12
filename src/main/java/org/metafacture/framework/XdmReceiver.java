@@ -16,7 +16,7 @@
 package org.metafacture.framework;
 
 import net.sf.saxon.s9api.XdmNode;
-import org.metafacture.framework.ObjectReceiver;
 
 public interface XdmReceiver extends ObjectReceiver<XdmNode> {
+    // Just a combination of LifeCycle and the corresponding ObjectReceiver
 }

@@ -18,11 +18,11 @@ package org.metafacture.xdm;
 import net.sf.saxon.s9api.*;
 import org.metafacture.framework.FluxCommand;
 import org.metafacture.framework.MetafactureException;
+import org.metafacture.framework.XdmReceiver;
 import org.metafacture.framework.annotations.Description;
 import org.metafacture.framework.annotations.In;
 import org.metafacture.framework.annotations.Out;
-import org.metafacture.framework.DefaultXdmPipe;
-import org.metafacture.framework.XdmReceiver;
+import org.metafacture.framework.helpers.DefaultXdmPipe;
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.File;
@@ -31,12 +31,10 @@ import java.io.File;
 @Out(XdmReceiver.class)
 @Description("Transforms a xdm node using a xsl stylesheet.")
 @FluxCommand("transform")
-public class XdmTransformer implements DefaultXdmPipe<XdmReceiver> {
+public class XdmTransformer extends DefaultXdmPipe<XdmReceiver> {
     private final Processor processor;
     private XsltTransformer transformer;
     private XdmDestination destination;
-
-    private XdmReceiver receiver;
 
     public XdmTransformer(String stylesheet) {
         this.processor = new Processor(false);
@@ -70,25 +68,9 @@ public class XdmTransformer implements DefaultXdmPipe<XdmReceiver> {
             XdmNode nodeCopy = processor.newDocumentBuilder().build(node.asSource());
             processor.writeXdmValue(nodeCopy, transformer);
             XdmNode transformedNode = destination.getXdmNode();
-            receiver.process(transformedNode);
+            getReceiver().process(transformedNode);
         } catch (SaxonApiException e) {
             throw new MetafactureException(e);
         }
-    }
-
-    @Override
-    public <R extends XdmReceiver> R setReceiver(R receiver) {
-        this.receiver = receiver;
-        return receiver;
-    }
-
-    @Override
-    public void resetStream() {
-        // Do nothing
-    }
-
-    @Override
-    public void closeStream() {
-        // Do nothing
     }
 }

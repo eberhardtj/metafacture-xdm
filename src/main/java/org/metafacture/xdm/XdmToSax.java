@@ -21,21 +21,20 @@ import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.XdmNode;
 import org.metafacture.framework.FluxCommand;
 import org.metafacture.framework.MetafactureException;
+import org.metafacture.framework.XdmReceiver;
 import org.metafacture.framework.XmlReceiver;
 import org.metafacture.framework.annotations.Description;
 import org.metafacture.framework.annotations.In;
 import org.metafacture.framework.annotations.Out;
-import org.metafacture.framework.DefaultXdmPipe;
-import org.metafacture.framework.XdmReceiver;
+import org.metafacture.framework.helpers.DefaultXdmPipe;
 import org.metafacture.xdm.helper.XmlFilterAdapter;
 
 @In(XdmReceiver.class)
 @Out(XmlReceiver.class)
 @Description("Transforms xdm nodes into sax documents.")
 @FluxCommand("xdm-to-sax")
-public class XdmToSax implements DefaultXdmPipe<XmlReceiver> {
+public class XdmToSax extends DefaultXdmPipe<XmlReceiver> {
     private Processor processor;
-    private XmlReceiver receiver;
     private SAXDestination destination;
 
     public XdmToSax() {
@@ -52,19 +51,7 @@ public class XdmToSax implements DefaultXdmPipe<XmlReceiver> {
     }
 
     @Override
-    public <R extends XmlReceiver> R setReceiver(R receiver) {
-        this.destination = new SAXDestination(new XmlFilterAdapter(receiver));
-        this.receiver = receiver;
-        return receiver;
-    }
-
-    @Override
-    public void resetStream() {
-        // Do nothing
-    }
-
-    @Override
-    public void closeStream() {
-        // Do nothing
+    public void onSetReceiver() {
+        this.destination = new SAXDestination(new XmlFilterAdapter(getReceiver()));
     }
 }

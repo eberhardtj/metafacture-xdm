@@ -22,18 +22,17 @@ import net.sf.saxon.s9api.XdmNode;
 import org.metafacture.framework.FluxCommand;
 import org.metafacture.framework.MetafactureException;
 import org.metafacture.framework.ObjectReceiver;
+import org.metafacture.framework.XdmReceiver;
 import org.metafacture.framework.annotations.Description;
 import org.metafacture.framework.annotations.In;
 import org.metafacture.framework.annotations.Out;
-import org.metafacture.framework.DefaultXdmPipe;
-import org.metafacture.framework.XdmReceiver;
+import org.metafacture.framework.helpers.DefaultXdmPipe;
 
 @In(XdmReceiver.class)
 @Out(String.class)
 @Description("Encodes xdm nodes into their xml equivalent.")
 @FluxCommand("xdm-to-xml")
-public class XdmXmlEncoder implements DefaultXdmPipe<ObjectReceiver<String>> {
-    private ObjectReceiver<String> receiver;
+public class XdmXmlEncoder extends DefaultXdmPipe<ObjectReceiver<String>> {
     private Processor processor;
     private Serializer serializer;
 
@@ -63,25 +62,9 @@ public class XdmXmlEncoder implements DefaultXdmPipe<ObjectReceiver<String>> {
     public void process(XdmNode node) {
         try {
             String xml = serializer.serializeNodeToString(node);
-            receiver.process(xml);
+            getReceiver().process(xml);
         } catch (SaxonApiException e) {
             throw new MetafactureException(e);
         }
-    }
-
-    @Override
-    public <R extends ObjectReceiver<String>> R setReceiver(R receiver) {
-        this.receiver = receiver;
-        return receiver;
-    }
-
-    @Override
-    public void resetStream() {
-        // Do nothing
-    }
-
-    @Override
-    public void closeStream() {
-        // Do nothing
     }
 }
