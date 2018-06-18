@@ -1,4 +1,4 @@
-= metafacture-xdm
+= metafacture-xdm-plugin
 :toc:
 
 A plugin for link:https://github.com/metafacture/metafacture-core[metafacture] that extends it's XML features.
@@ -9,7 +9,7 @@ The current backend is provided by link:http://www.saxonica.com/products/PD9.8/H
 
 == Build
 
-image::https://jitpack.io/v/eberhardtj/metafacture-xdm.svg[link="https://jitpack.io/#eberhardtj/metafacture-xdm"]
+image::https://jitpack.io/v/eberhardtj/metafacture-xdm-plugin.svg[link="https://jitpack.io/#eberhardtj/metafacture-xdm-plugin"]
 
 ```
 gradlew clean test fatJar
