@@ -22,7 +22,6 @@ dependencies {
 task fatJar(type: Jar) {
     dependencies {
         compile 'net.sf.saxon:Saxon-HE:9.8.0-10'
-        compile 'org.json:json:20180130'
     }
 
     excludes = ['META-INF/SAXONICA.*', 'META-INF/maven/**', 'META-INF/services/**']
