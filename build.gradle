@@ -1,4 +1,4 @@
-group 'com.github.eberhardtj'
+group 'org.metafacture'
 version '0.3.3'
 
 apply plugin: 'java'
