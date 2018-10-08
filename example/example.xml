@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animals>
+	<animal id="C">
+		<name>cat</name>
+		<age>38</age>
+	</animal>
+	<animal id="D">
+		<name>dog</name>
+		<age>16</age>
+	</animal>
+</animals>
