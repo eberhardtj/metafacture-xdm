@@ -2,7 +2,6 @@ group 'org.metafacture'
 version '0.4.0'
 
 apply plugin: 'java'
-apply plugin: 'java-library'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.8
@@ -14,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    api 'net.sf.saxon:Saxon-HE:9.8.0-10'
+    compile 'net.sf.saxon:Saxon-HE:9.8.0-10'
     implementation 'org.metafacture:metafacture-framework:5.0.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.5.5'
