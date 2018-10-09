@@ -2,6 +2,6 @@
 | open-file
 | decode-xml
 | sax-to-xdm
-| transform("example.xsl")
+| transform(".xsl")
 | xdm-to-xml
 | print;
